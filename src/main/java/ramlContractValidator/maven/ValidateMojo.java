@@ -1,8 +1,5 @@
 package ramlContractValidator.maven;
 
-import japa.parser.JavaParser;
-import japa.parser.ParseException;
-import japa.parser.ast.CompilationUnit;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -12,9 +9,13 @@ import org.raml.model.Raml;
 import org.raml.parser.rule.ValidationResult;
 import org.raml.parser.visitor.RamlDocumentBuilder;
 import org.raml.parser.visitor.RamlValidationService;
-import ramlContractValidator.core.ContractValidator;
+import ramlContractValidator.core.comparator.RamlComparator;
+import ramlContractValidator.core.visitor.VisitorHandler;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 
 @Mojo( name = "validateRamlContract" )
@@ -24,33 +25,37 @@ public class ValidateMojo extends AbstractMojo {
     private String ramlLocation;
 
 
-    @Parameter( property = "ramlContractValidator.resourceKlassPath", required = true)
-    private String resourceKlassPath;
+    @Parameter( property = "ramlContractValidator.resourceClassPath", required = true )
+    private String resourceClassPath;
+
+    private RamlComparator ramlComparator;
+
+
+    private VisitorHandler visitorHandler;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-        if( !canReadLocation(ramlLocation) ) {
-            getLog().info(String.format("Cannot read RAML contract at: %s", ramlLocation));
-
-            throw new MojoFailureException("Unable to read raml contract");
-        }
+        checkLocation(ramlLocation, " provided RAML");
+        checkLocation(resourceClassPath, "resource class");
 
         try {
             getLog().info("Beginning RAML Contract Validation");
-            getLog().info("Validating RAML at: " + ramlLocation);
             validateRaml(ramlLocation);
-            getLog().info("RAML Contract Valid");
-            getLog().info("Building RAML document");
             Raml raml = buildRaml(ramlLocation);
-            getLog().info("RAML document built");
+            File resourceFile = new File(resourceClassPath);
 
-            ContractValidator cv = new ContractValidator();
-
-            cv.compare(raml, getResourceInstance(resourceKlassPath), getLog());
+            initializeRamlComparator();
+            visitorHandler = new VisitorHandler(ramlComparator, getLog());
+            visitorHandler.validateResource(resourceFile, raml);
         } catch (Exception e) {
             getLog().error(e.getMessage());
             throw new MojoFailureException(e.getMessage());
         }
+    }
+
+    private void initializeRamlComparator() {
+        ramlComparator = new RamlComparator(getLog());
+        ramlComparator.setCompareResources(true);
     }
 
     private Raml buildRaml(String ramlLocation) throws MojoFailureException {
@@ -65,34 +70,7 @@ public class ValidateMojo extends AbstractMojo {
         return new RamlDocumentBuilder().build(stream, ramlLocation);
     }
 
-    private CompilationUnit getResourceInstance(String resourceKlassPath){
-        FileInputStream in = null;
-        CompilationUnit cu = null;
-        try {
-            // creates an input stream for the file to be parsed
-            in = new FileInputStream(resourceKlassPath);
 
-            try {
-                // parse the file
-                cu = JavaParser.parse(in);
-            } catch (ParseException e) {
-                getLog().error("Could not parse resource");
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return cu;
-    }
 
     private void validateRaml(String location) throws MojoFailureException {
         InputStream stream = null;
@@ -117,8 +95,11 @@ public class ValidateMojo extends AbstractMojo {
         }
     }
 
-    private boolean canReadLocation(String path) {
+    private void checkLocation(String path, String name) throws MojoFailureException {
         File file = new File(path);
-        return file.canRead();
+        if( !file.canRead() ) {
+            getLog().info(String.format("Cannot read " + name + " at: %s", path));
+            throw new MojoFailureException("Unable to read " + name);
+        }
     }
 }
