@@ -25,6 +25,9 @@
         <module name="Raml-Contract-Validator" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Raml-Contract-Validator" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
 </project>
 
