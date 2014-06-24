@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cd62f5c4-3be8-46fc-a79c-c811672eb986" name="Default" comment="Things">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ramlContractValidator/annotations/ExcludedFromRaml.java" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_1_1.xml" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_1_1.xml" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_1_1.xml" afterPath="" />
@@ -20,10 +21,6 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_log4j12_1_7_5.xml" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_13.xml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/raml-contract-validator-1.0-SNAPSHOT.jar" afterPath="$PROJECT_DIR$/target/raml-contract-validator-1.0-SNAPSHOT.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ramlContractValidator/core/visitor/AbstractValidatorVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/ramlContractValidator/core/visitor/AbstractValidatorVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ramlContractValidator/core/comparator/RamlDiscrepancy.java" afterPath="$PROJECT_DIR$/src/main/java/ramlContractValidator/core/comparator/RamlDiscrepancy.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ramlContractValidator/core/comparator/ResourceComparator.java" afterPath="$PROJECT_DIR$/src/main/java/ramlContractValidator/core/comparator/ResourceComparator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ramlContractValidator/core/visitor/ResourceValidatorClassVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/ramlContractValidator/core/visitor/ResourceValidatorClassVisitor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ramlContractValidator/core/visitor/ResourceValidatorMethodVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/ramlContractValidator/core/visitor/ResourceValidatorMethodVisitor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -52,7 +49,7 @@
     <favorites_list name="Raml-Contract-Validator" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5220264">
+    <splitter split-orientation="horizontal" split-proportion="0.48072687">
       <split-first>
         <leaf>
           <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
@@ -68,7 +65,7 @@
           <file leaf-file-name="ValidateMojo.java" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/ramlContractValidator/maven/ValidateMojo.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="375" max-vertical-offset="1665">
+                <state vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="1665">
                   <caret line="33" column="23" selection-start-line="33" selection-start-column="16" selection-end-line="33" selection-end-column="23" />
                   <folding>
                     <element signature="imports" expanded="true" />
@@ -80,12 +77,24 @@
           <file leaf-file-name="AbstractValidatorVisitor.java" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/ramlContractValidator/core/visitor/AbstractValidatorVisitor.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="772" max-vertical-offset="2070">
+                <state vertical-scroll-proportion="0.0" vertical-offset="1077" max-vertical-offset="2070">
                   <caret line="123" column="44" selection-start-line="123" selection-start-column="19" selection-end-line="123" selection-end-column="44" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="e#800#818#0" expanded="true" />
                     <element signature="e#4198#4216#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="ExcludedFromRaml.java" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/ramlContractValidator/annotations/ExcludedFromRaml.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="285">
+                  <caret line="12" column="38" selection-start-line="12" selection-start-column="38" selection-end-line="12" selection-end-column="38" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -103,11 +112,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="ResourceComparator.java" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="ResourceComparator.java" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/ramlContractValidator/core/comparator/ResourceComparator.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.5255102" vertical-offset="580" max-vertical-offset="1575">
-                  <caret line="73" column="9" selection-start-line="73" selection-start-column="9" selection-end-line="73" selection-end-column="9" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1575">
+                  <caret line="96" column="29" selection-start-line="96" selection-start-column="29" selection-end-line="96" selection-end-column="29" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="e#518#519#0" expanded="true" />
@@ -150,17 +159,17 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="ResourceValidatorMethodVisitor.java" pinned="false" current="false" current-in-tab="false">
+          <file leaf-file-name="ResourceValidatorMethodVisitor.java" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/ramlContractValidator/core/visitor/ResourceValidatorMethodVisitor.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="367" max-vertical-offset="1695">
-                  <caret line="64" column="64" selection-start-line="64" selection-start-column="64" selection-end-line="64" selection-end-column="64" />
+                <state vertical-scroll-proportion="0.45107397" vertical-offset="147" max-vertical-offset="1740">
+                  <caret line="35" column="17" selection-start-line="35" selection-start-column="17" selection-end-line="35" selection-end-column="17" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="e#646#647#0" expanded="true" />
                     <element signature="e#689#690#0" expanded="true" />
-                    <element signature="e#2220#2244#0" expanded="true" />
-                    <element signature="e#3360#3384#0" expanded="true" />
+                    <element signature="e#2346#2370#0" expanded="true" />
+                    <element signature="e#3486#3510#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -173,7 +182,7 @@
           <file leaf-file-name="RamlComparator.java" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/ramlContractValidator/core/comparator/RamlComparator.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.5663011" vertical-offset="557" max-vertical-offset="1560">
+                <state vertical-scroll-proportion="1.326651" vertical-offset="0" max-vertical-offset="1560">
                   <caret line="77" column="29" selection-start-line="77" selection-start-column="21" selection-end-line="77" selection-end-column="29" />
                   <folding>
                     <element signature="imports" expanded="true" />
@@ -234,9 +243,10 @@
         <option value="$PROJECT_DIR$/src/main/java/ramlContractValidator/core/visitor/ResourceValidatorClassVisitor.java" />
         <option value="$PROJECT_DIR$/src/main/java/ramlContractValidator/core/comparator/RamlComparator.java" />
         <option value="$PROJECT_DIR$/src/main/java/ramlContractValidator/core/visitor/AbstractValidatorVisitor.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ramlContractValidator/core/visitor/ResourceValidatorMethodVisitor.java" />
         <option value="$PROJECT_DIR$/src/main/java/ramlContractValidator/core/comparator/RamlDiscrepancy.java" />
         <option value="$PROJECT_DIR$/src/main/java/ramlContractValidator/core/comparator/ResourceComparator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ramlContractValidator/annotations/ExcludedFromRaml.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ramlContractValidator/core/visitor/ResourceValidatorMethodVisitor.java" />
       </list>
     </option>
   </component>
@@ -536,6 +546,40 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="comparator" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="raml-contract-validator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Raml-Contract-Validator" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ramlContractValidator" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="annotations" />
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -838,7 +882,11 @@
       <created>1403637053995</created>
       <updated>1403637053995</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="-QueryParam analysis added">
+      <created>1403647128387</created>
+      <updated>1403647128387</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -855,16 +903,16 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3295626" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3295626" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286445" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11517077" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11517077" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16362192" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16362192" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25641027" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21266969" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21266969" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -890,7 +938,8 @@
     <MESSAGE value="Resource Validation Operational" />
     <MESSAGE value="- Action Types now properly compared&#10;- Deep two sided search enabled&#10;-- I.E. looks for missing resources/actions and extra resources/actions&#10;" />
     <MESSAGE value="-Bug Fix &amp; Info Cleanup" />
-    <option name="LAST_COMMIT_MESSAGE" value="-Bug Fix &amp; Info Cleanup" />
+    <MESSAGE value="-QueryParam analysis added" />
+    <option name="LAST_COMMIT_MESSAGE" value="-QueryParam analysis added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1091,16 +1140,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ramlContractValidator/maven/ValidateMojo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="1665">
-          <caret line="33" column="23" selection-start-line="33" selection-start-column="16" selection-end-line="33" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/javax/ws/rs/javax.ws.rs-api/2.0/javax.ws.rs-api-2.0-sources.jar!/javax/ws/rs/QueryParam.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.72507554" vertical-offset="0" max-vertical-offset="993">
@@ -1109,10 +1148,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ramlContractValidator/core/visitor/ResourceValidatorClassVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="630">
+          <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#423#424#0" expanded="true" />
+            <element signature="e#466#467#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ramlContractValidator/core/visitor/VisitorHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="64" max-vertical-offset="1080">
           <caret line="39" column="12" selection-start-line="39" selection-start-column="12" selection-end-line="39" selection-end-column="12" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ramlContractValidator/annotations/ExcludedFromRaml.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="285">
+          <caret line="12" column="38" selection-start-line="12" selection-start-column="38" selection-end-line="12" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1131,6 +1192,45 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ramlContractValidator/maven/ValidateMojo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="1665">
+          <caret line="33" column="23" selection-start-line="33" selection-start-column="16" selection-end-line="33" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ramlContractValidator/core/comparator/RamlComparator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.326651" vertical-offset="0" max-vertical-offset="1560">
+          <caret line="77" column="29" selection-start-line="77" selection-start-column="21" selection-end-line="77" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#608#625#0" expanded="true" />
+            <element signature="e#2604#2622#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ramlContractValidator/core/comparator/ResourceComparator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1575">
+          <caret line="96" column="29" selection-start-line="96" selection-start-column="29" selection-end-line="96" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#518#519#0" expanded="true" />
+            <element signature="e#554#555#0" expanded="true" />
+            <element signature="e#698#715#0" expanded="true" />
+            <element signature="e#2044#2064#0" expanded="true" />
+            <element signature="e#2179#2196#0" expanded="true" />
+            <element signature="e#3173#3197#0" expanded="true" />
+            <element signature="e#3312#3329#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ramlContractValidator/core/comparator/RamlDiscrepancy.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="855">
@@ -1145,55 +1245,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ramlContractValidator/core/visitor/ResourceValidatorMethodVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="367" max-vertical-offset="1695">
-          <caret line="64" column="64" selection-start-line="64" selection-start-column="64" selection-end-line="64" selection-end-column="64" />
+        <state vertical-scroll-proportion="0.45107397" vertical-offset="147" max-vertical-offset="1740">
+          <caret line="35" column="17" selection-start-line="35" selection-start-column="17" selection-end-line="35" selection-end-column="17" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#646#647#0" expanded="true" />
             <element signature="e#689#690#0" expanded="true" />
-            <element signature="e#2220#2244#0" expanded="true" />
-            <element signature="e#3360#3384#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ramlContractValidator/core/visitor/ResourceValidatorClassVisitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="630">
-          <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#423#424#0" expanded="true" />
-            <element signature="e#466#467#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ramlContractValidator/core/comparator/RamlComparator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5663011" vertical-offset="557" max-vertical-offset="1560">
-          <caret line="77" column="29" selection-start-line="77" selection-start-column="21" selection-end-line="77" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#608#625#0" expanded="true" />
-            <element signature="e#2604#2622#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ramlContractValidator/core/comparator/ResourceComparator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5255102" vertical-offset="580" max-vertical-offset="1575">
-          <caret line="73" column="9" selection-start-line="73" selection-start-column="9" selection-end-line="73" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#518#519#0" expanded="true" />
-            <element signature="e#554#555#0" expanded="true" />
-            <element signature="e#698#715#0" expanded="true" />
-            <element signature="e#2044#2064#0" expanded="true" />
-            <element signature="e#2179#2196#0" expanded="true" />
-            <element signature="e#3173#3197#0" expanded="true" />
-            <element signature="e#3312#3329#0" expanded="true" />
+            <element signature="e#2346#2370#0" expanded="true" />
+            <element signature="e#3486#3510#0" expanded="true" />
           </folding>
         </state>
       </provider>

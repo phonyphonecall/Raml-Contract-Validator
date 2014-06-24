@@ -31,6 +31,9 @@ public class ResourceValidatorMethodVisitor extends AbstractValidatorVisitor {
         ActionType action = null;
         if (n.getAnnotations() != null) {
             for (AnnotationExpr annotation : n.getAnnotations()) {
+                if(annotation.getName().getName().equals("ExcludedFromRaml")) {
+                    return;
+                }
                 if(annotation.getName().getName().equals("Path")) {
                     path = annotation;
                 }
