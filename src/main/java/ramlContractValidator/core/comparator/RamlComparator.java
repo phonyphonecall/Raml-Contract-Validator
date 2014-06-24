@@ -4,6 +4,7 @@ import org.apache.maven.plugin.logging.Log;
 import org.raml.model.Raml;
 import org.raml.model.Resource;
 
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -50,51 +51,47 @@ public class RamlComparator {
     private void compareResources(Map<String, Resource> expectedRamlResources, Map<String, Resource> observedRamlResources) {
         if (compareResources) {
             logger.info("Beginning Resource Comparison");
+            if (expectedRamlResources == null) {
+                logger.debug("No resources found in expected RAML");
+                discrepancies.add(new RamlDiscrepancy("No resources found in expected RAML", logger));
+                return;
+            }
+            if (observedRamlResources == null) {
+                logger.debug("No resources found in expected RAML");
+                discrepancies.add(new RamlDiscrepancy("No resources found in observed RAML", logger));
+                return;
+            }
             recurseResources(expectedRamlResources, observedRamlResources);
         }
     }
 
     private void recurseResources(Map<String, Resource> expectedRamlResources, Map<String, Resource> observedRamlResources) {
-        if (expectedRamlResources == null) {
-            logger.debug("No resources found in expected RAML");
-            discrepancies.add(new RamlDiscrepancy("No resources found in expected RAML", logger));
-            return;
-        }
         if (observedRamlResources == null) {
-            logger.debug("No resources found in expected RAML");
-            discrepancies.add(new RamlDiscrepancy("No resources found in observed RAML", logger));
+            logger.debug("No resource level found in expected RAML");
+            discrepancies.add(new RamlDiscrepancy("No resource level found in observed RAML", logger));
             return;
         }
+
+        Map<String, Resource> observedResourceBuffer = new LinkedHashMap<String, Resource>();
+        observedResourceBuffer.putAll(observedRamlResources);
 
         for(Entry<String, Resource> entry : expectedRamlResources.entrySet()) {
             Resource expected = entry.getValue();
             Resource observed = observedRamlResources.get(entry.getKey());
+            if(observed != null)
+                observedResourceBuffer.remove(entry.getKey());
 
-            logger.debug("Expected Resource: " + expected.toString());
-            logger.debug("Observed Resource: " + observed.toString());
+            discrepancies.addAll(new ResourceComparator(logger).compare(expected, observed));
 
-//            if(expected == null) {
-//                logger.debug("Null expected resource found in resource map");
-//                discrepancies.add(new RamlDiscrepancy("Null expected resource found in resource map", logger));
-//                continue;
-//            }
-//            if(observed == null) {
-//                logger.debug("Could not find expected resource" + expected.toString());
-//                discrepancies.add(new RamlDiscrepancy(expected, null, "Could not find expected resource", logger));
-//                continue;
-//            }
-
-            List<RamlDiscrepancy> resourceDiscrepancies = new ResourceComparator(logger).compare(expected, observed);
-            if (resourceDiscrepancies != null) {
-                discrepancies.addAll(resourceDiscrepancies);
-            }
-
-            // Recurse
             Map<String, Resource> expectedChildResources = expected.getResources();
-            Map<String, Resource> observedChildResources = observed.getResources();
+            Map<String, Resource> observedChildResources = (observed != null) ? observed.getResources() : null;
             if (expectedChildResources != null) {
                 recurseResources(expectedChildResources, observedChildResources);
             }
+        }
+
+        for(Entry<String, Resource> entry : observedResourceBuffer.entrySet()) {
+            discrepancies.addAll(new ResourceComparator(logger).compare(null, entry.getValue()));
         }
     }
 

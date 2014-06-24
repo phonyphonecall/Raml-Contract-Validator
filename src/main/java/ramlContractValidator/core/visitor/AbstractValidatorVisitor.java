@@ -3,6 +3,8 @@ package ramlContractValidator.core.visitor;
 import japa.parser.ast.expr.AnnotationExpr;
 import japa.parser.ast.visitor.VoidVisitorAdapter;
 import org.apache.maven.plugin.logging.Log;
+import org.raml.model.Action;
+import org.raml.model.ActionType;
 import org.raml.model.Raml;
 import org.raml.model.Resource;
 
@@ -56,7 +58,10 @@ public class AbstractValidatorVisitor extends VoidVisitorAdapter {
         }
     }
 
-    protected void addPath(String value) {
+    protected void addPath(String value, ActionType actionType) {
+        Action action = new Action();
+        action.setType(actionType);
+
         String[] paths = value.split("/");
         StringBuilder sb = new StringBuilder();
         String parentPath = "";
@@ -86,6 +91,11 @@ public class AbstractValidatorVisitor extends VoidVisitorAdapter {
             sb.append(path);
             parentPath = path;
         }
+
+        // Make sure to put action once we find resourcec
+        Resource resource = allResources.get(sb.toString());
+        action.setResource(resource);
+        resource.getActions().put(actionType, action);
     }
 
     /**
@@ -107,5 +117,13 @@ public class AbstractValidatorVisitor extends VoidVisitorAdapter {
         baseResources.put(path, baseResource);
         resourceRaml.setResources(baseResources);
         allResources.put(path, baseResource);
+    }
+
+    protected void addBaseResourcePathAction(ActionType actionType) {
+        logger.debug("Adding base path action: " + actionType.name());
+        Action action = new Action();
+        action.setType(actionType);
+        action.setResource(baseResource);
+        baseResource.getActions().put(actionType, action);
     }
 }

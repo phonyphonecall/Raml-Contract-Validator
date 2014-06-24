@@ -31,7 +31,7 @@ public class ResourceComparator {
             return discrepancies;
         }
         if (expected == null) {
-            discrepancies.add(new RamlDiscrepancy(null, observed, "Missing matching expected resource", logger));
+            discrepancies.add(new RamlDiscrepancy(null, observed, "Non-specified resource observed", logger));
             return discrepancies;
         }
 
@@ -40,10 +40,7 @@ public class ResourceComparator {
         if (!expected.getParentUri().equals(observed.getParentUri()))
             discrepancies.add(new RamlDiscrepancy(expected, observed, "Parent URI's do not match", logger));
 
-//        if (!expected.getType().equals(observed.getType()))
-//            discrepancies.add(new RamlDiscrepancy(expected, observed, "Types do not match", logger));
-
-         compareActions(expected.getActions(), observed.getActions());
+         discrepancies.addAll(compareActions(expected.getActions(), observed.getActions()));
 
         // expected.getBaseUriParameters();
         // expected.getUriParameters();
@@ -59,7 +56,14 @@ public class ResourceComparator {
             Action action = observed.get(entry.getKey());
             if(action == null) {
                 discrepancies.add(new RamlDiscrepancy(expected, observed, "Could not find expected action", logger));
-                continue;
+            }
+            // TODO could compare more... But we just care for types now
+        }
+
+        for (Entry<ActionType, Action> entry : observed.entrySet()) {
+            Action action = expected.get(entry.getKey());
+            if(action == null) {
+                discrepancies.add(new RamlDiscrepancy(expected, observed, "Non-specified action observed", logger));
             }
             // TODO could compare more... But we just care for types now
         }

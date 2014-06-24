@@ -24,14 +24,11 @@ public class ValidateMojo extends AbstractMojo {
     @Parameter( property = "ramlContractValidator.ramlLocation", required = true )
     private String ramlLocation;
 
-
     @Parameter( property = "ramlContractValidator.resourceClassPath", required = true )
     private String resourceClassPath;
 
     private RamlComparator ramlComparator;
 
-
-    private VisitorHandler visitorHandler;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -45,7 +42,7 @@ public class ValidateMojo extends AbstractMojo {
             File resourceFile = new File(resourceClassPath);
 
             initializeRamlComparator();
-            visitorHandler = new VisitorHandler(ramlComparator, getLog());
+            VisitorHandler visitorHandler = new VisitorHandler(ramlComparator, getLog());
             visitorHandler.validateResource(resourceFile, raml);
         } catch (Exception e) {
             getLog().error(e.getMessage());
@@ -53,13 +50,15 @@ public class ValidateMojo extends AbstractMojo {
         }
     }
 
+
     private void initializeRamlComparator() {
         ramlComparator = new RamlComparator(getLog());
         ramlComparator.setCompareResources(true);
     }
 
+
     private Raml buildRaml(String ramlLocation) throws MojoFailureException {
-        InputStream stream = null;
+        InputStream stream;
         try {
             stream = new FileInputStream(ramlLocation);
         } catch (FileNotFoundException e) {
@@ -73,7 +72,7 @@ public class ValidateMojo extends AbstractMojo {
 
 
     private void validateRaml(String location) throws MojoFailureException {
-        InputStream stream = null;
+        InputStream stream;
         try {
             stream = new FileInputStream(location);
         } catch (FileNotFoundException e) {
@@ -94,6 +93,7 @@ public class ValidateMojo extends AbstractMojo {
             }
         }
     }
+
 
     private void checkLocation(String path, String name) throws MojoFailureException {
         File file = new File(path);

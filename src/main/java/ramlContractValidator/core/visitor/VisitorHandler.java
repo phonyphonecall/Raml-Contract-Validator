@@ -54,10 +54,11 @@ public class VisitorHandler {
         List<RamlDiscrepancy> issues = ramlComparator.compare(expectedRaml, observedRaml);
 
         if (issues != null) {
-            logger.error("Found RAML Contract Violations");
+            logger.error("RAML Contract Violations:");
             for(RamlDiscrepancy discrepancy : issues) {
                 logger.error(discrepancy.toString());
             }
+            throw new RuntimeException("RAML CONTRACT VIOLATIONS DETECTED.");
         } else {
             logger.info("RAML Contract Validation Succesful");
         }
