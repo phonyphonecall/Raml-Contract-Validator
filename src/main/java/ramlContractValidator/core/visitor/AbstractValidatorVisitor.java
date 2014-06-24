@@ -7,6 +7,7 @@ import org.raml.model.Raml;
 import org.raml.model.Resource;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -18,7 +19,7 @@ public class AbstractValidatorVisitor extends VoidVisitorAdapter {
 
     Log logger;
 
-    public Raml resourceRaml;
+    private Raml resourceRaml;
 
     private Resource baseResource;
     // For convenience we will buffer up all resources in project here
@@ -58,28 +59,32 @@ public class AbstractValidatorVisitor extends VoidVisitorAdapter {
     protected void addPath(String value) {
         String[] paths = value.split("/");
         StringBuilder sb = new StringBuilder();
+        String parentPath = "";
 
         if(baseResource != null) {
             sb.append(baseResource.getRelativeUri());
+            parentPath = sb.toString();
         }
 
         for (String path : paths) {
-            if(path.isEmpty())
+            if(path == null || path.isEmpty())
                 continue;
-            String parentPath = sb.toString();
-            String fullPath = parentPath + "/" + path;
+            String fullPath = sb.toString() + "/" + path;
             if (!allResources.containsKey(fullPath)) {
+                logger.debug("Working on full path: " + fullPath);
                 logger.debug("RCV: Adding resource \'/" + path + "\' to parent: \'" + parentPath + "\'");
                 Resource resource = new Resource();
                 resource.setParentUri(parentPath);
-                resource.setParentResource(allResources.get(parentPath));
+                resource.setRelativeUri("/" + path);
+                logger.debug("Setting parent Resource: " + allResources.get(sb.toString()));
+                resource.setParentResource(allResources.get(sb.toString()));
                 resource.getParentResource().getResources().put("/" + path, resource);
                 // Continue to buffer new resources
                 allResources.put(fullPath, resource);
             }
-
             sb.append("/");
             sb.append(path);
+            parentPath = path;
         }
     }
 
@@ -98,7 +103,7 @@ public class AbstractValidatorVisitor extends VoidVisitorAdapter {
         baseResource = new Resource();
         baseResource.setRelativeUri(path);
         baseResource.setParentUri("");
-        Map<String, Resource> baseResources = new HashMap<String, Resource>();
+        Map<String, Resource> baseResources = new LinkedHashMap<String, Resource>();
         baseResources.put(path, baseResource);
         resourceRaml.setResources(baseResources);
         allResources.put(path, baseResource);

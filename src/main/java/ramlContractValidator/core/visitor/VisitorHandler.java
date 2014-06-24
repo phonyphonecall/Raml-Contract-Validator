@@ -46,7 +46,9 @@ public class VisitorHandler {
             throw new RuntimeException("File Not Found Exception in reflection util");
         }
 
+        logger.debug(new RamlEmitter().dump(expectedRaml));
         logger.debug(new RamlEmitter().dump(observedRaml));
+
 
 
         List<RamlDiscrepancy> issues = ramlComparator.compare(expectedRaml, observedRaml);
