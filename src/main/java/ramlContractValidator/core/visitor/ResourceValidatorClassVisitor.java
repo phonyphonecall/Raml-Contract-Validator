@@ -23,7 +23,7 @@ public class ResourceValidatorClassVisitor extends AbstractValidatorVisitor {
         if (n.getAnnotations() != null) {
             for (AnnotationExpr annotation : n.getAnnotations()) {
                 if(annotation.getName().getName().equals("Path")) {
-                    String path = getPathValue(annotation);
+                    String path = getValue(annotation);
                     addBaseResourcePath(path);
                 }
             }

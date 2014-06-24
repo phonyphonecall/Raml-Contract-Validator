@@ -1,10 +1,17 @@
 package ramlContractValidator.core.visitor;
 
 import japa.parser.ast.body.MethodDeclaration;
+import japa.parser.ast.body.Parameter;
 import japa.parser.ast.expr.AnnotationExpr;
 import org.apache.maven.plugin.logging.Log;
 import org.raml.model.ActionType;
+import org.raml.model.ParamType;
 import org.raml.model.Raml;
+import org.raml.model.parameter.QueryParameter;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -53,6 +60,10 @@ public class ResourceValidatorMethodVisitor extends AbstractValidatorVisitor {
                 }
             }
 
+            Map<String, QueryParameter> queryParams = new LinkedHashMap<String, QueryParameter>();
+            if(n.getParameters() != null && !n.getParameters().isEmpty())
+                queryParams = getQueryParams(n.getParameters());
+
             /*
              * Four cases:
              *  0: Method is not a path method
@@ -63,13 +74,34 @@ public class ResourceValidatorMethodVisitor extends AbstractValidatorVisitor {
             if (path == null && action == null) {
                 return;
             } else if (path != null && action == null) {
-                throw new RuntimeException("Path missing action type at: " + getPathValue(path));
+                throw new RuntimeException("Path missing action type at: " + getValue(path));
             } else if (path == null && action != null) {
-                addBaseResourcePathAction(action);
+                addBaseResourcePathAction(action, queryParams);
             } else {
-                addPath(getPathValue(path), action);
+                logger.debug("Adding path: " + getValue(path));
+                addPath(getValue(path), action, queryParams);
             }
         }
     }
 
+    private Map<String, QueryParameter> getQueryParams(List<Parameter> params) {
+        Map<String, QueryParameter> queryParams = new LinkedHashMap<String, QueryParameter>();
+
+        for(Parameter param : params) {
+            if(param.getAnnotations() != null) {
+                for(AnnotationExpr annotation : param.getAnnotations()) {
+                    if(annotation.getName().getName().equals("QueryParam")) {
+                        String name = getValue(annotation);
+                        logger.debug("Adding QueryParameter: " + name);
+                        QueryParameter queryParam = new QueryParameter();
+                        queryParam.setDisplayName(name);
+                        queryParam.setType(ParamType.valueOf(param.getType().toString().toUpperCase()));
+                        queryParams.put(name, queryParam);
+                    }
+                }
+            }
+        }
+
+        return queryParams;
+    }
 }

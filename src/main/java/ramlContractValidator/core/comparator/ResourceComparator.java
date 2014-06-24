@@ -5,7 +5,9 @@ import org.apache.maven.plugin.logging.Log;
 import org.raml.model.Action;
 import org.raml.model.ActionType;
 import org.raml.model.Resource;
+import org.raml.model.parameter.QueryParameter;
 
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -53,22 +55,43 @@ public class ResourceComparator {
     }
 
     private List<RamlDiscrepancy> compareActions(Map<ActionType, Action> expected, Map<ActionType, Action> observed) {
+        Map<ActionType, Action> observedQueryParamBuffer = new LinkedHashMap<ActionType, Action>();
+        observedQueryParamBuffer.putAll(observed);
         List<RamlDiscrepancy> discrepancies = new LinkedList<RamlDiscrepancy>();
 
         for (Entry<ActionType, Action> entry : expected.entrySet()) {
             Action action = observed.get(entry.getKey());
             if(action == null) {
                 discrepancies.add(new RamlDiscrepancy(expected, observed, "Could not find expected action", logger));
+            } else {
+                observedQueryParamBuffer.remove(entry.getKey());
             }
-            // TODO could compare more... But we just care for types now
+            discrepancies.addAll(compareQueryParms(entry.getValue().getQueryParameters(), action.getQueryParameters()));
         }
 
-        for (Entry<ActionType, Action> entry : observed.entrySet()) {
-            Action action = expected.get(entry.getKey());
-            if(action == null) {
-                discrepancies.add(new RamlDiscrepancy(expected, observed, "Non-specified action observed", logger));
+        for(Entry<ActionType, Action> entry : observedQueryParamBuffer.entrySet()) {
+            discrepancies.add(new RamlDiscrepancy(null, observed, "Non-Specified query-parameter observed", logger));
+        }
+
+        return discrepancies;
+    }
+
+    private List<RamlDiscrepancy> compareQueryParms(Map<String, QueryParameter> expected, Map<String, QueryParameter> observed) {
+        Map<String, QueryParameter> observedQueryParamBuffer = new LinkedHashMap<String, QueryParameter>();
+        observedQueryParamBuffer.putAll(observed);
+        List<RamlDiscrepancy> discrepancies = new LinkedList<RamlDiscrepancy>();
+
+        for (Entry<String, QueryParameter> entry : expected.entrySet()) {
+            QueryParameter queryParam = observed.get(entry.getKey());
+            if(queryParam == null) {
+                discrepancies.add(new RamlDiscrepancy(entry.getKey(), null, "Could not find expected query-parameter", logger));
+            } else {
+                observedQueryParamBuffer.remove(entry.getKey());
             }
-            // TODO could compare more... But we just care for types now
+        }
+
+        for(Entry<String, QueryParameter> entry : observedQueryParamBuffer.entrySet()) {
+            discrepancies.add(new RamlDiscrepancy(null, entry.getKey(), "Non-Specified query-parameter observed", logger));
         }
 
         return discrepancies;

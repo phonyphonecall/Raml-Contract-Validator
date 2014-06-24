@@ -1,7 +1,6 @@
 package ramlContractValidator.core.comparator;
 
 import org.apache.maven.plugin.logging.Log;
-
 import org.raml.model.Action;
 import org.raml.model.ActionType;
 import org.raml.model.Resource;
@@ -36,6 +35,14 @@ public class RamlDiscrepancy {
         this.message =  message + " | expected action(s): " + expectedPrint + " | observed action: " + observedPrint;
         logger.debug("Discrepancy Added: " + this.message);
     }
+
+
+    public RamlDiscrepancy(String expectedQueryParamName, String observedQueryParamName, String message, Log logger) {
+
+        this.message =  message + " | expected query-parameter: " + expectedQueryParamName + " | observed query-parameter: " + observedQueryParamName;
+        logger.debug("Discrepancy Added: " + this.message);
+    }
+
 
     @Override
     public String toString() {

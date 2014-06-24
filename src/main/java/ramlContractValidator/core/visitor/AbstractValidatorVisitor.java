@@ -7,6 +7,7 @@ import org.raml.model.Action;
 import org.raml.model.ActionType;
 import org.raml.model.Raml;
 import org.raml.model.Resource;
+import org.raml.model.parameter.QueryParameter;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -58,9 +59,10 @@ public class AbstractValidatorVisitor extends VoidVisitorAdapter {
         }
     }
 
-    protected void addPath(String value, ActionType actionType) {
+    protected void addPath(String value, ActionType actionType, Map<String, QueryParameter> queryParams) {
         Action action = new Action();
         action.setType(actionType);
+        action.setQueryParameters(queryParams);
 
         String[] paths = value.split("/");
         StringBuilder sb = new StringBuilder();
@@ -99,9 +101,9 @@ public class AbstractValidatorVisitor extends VoidVisitorAdapter {
     }
 
     /**
-     * String twiddling to get path values
+     * String twiddling to get annotation values
      */
-    protected String getPathValue(AnnotationExpr annotation) {
+    protected String getValue(AnnotationExpr annotation) {
         String dump = annotation.toString();
         int start = dump.indexOf("\"");
         int end = dump.indexOf("\"", start + 1);
@@ -119,11 +121,12 @@ public class AbstractValidatorVisitor extends VoidVisitorAdapter {
         allResources.put(path, baseResource);
     }
 
-    protected void addBaseResourcePathAction(ActionType actionType) {
+    protected void addBaseResourcePathAction(ActionType actionType, Map<String, QueryParameter> queryParams) {
         logger.debug("Adding base path action: " + actionType.name());
         Action action = new Action();
         action.setType(actionType);
         action.setResource(baseResource);
+        action.setQueryParameters(queryParams);
         baseResource.getActions().put(actionType, action);
     }
 }
