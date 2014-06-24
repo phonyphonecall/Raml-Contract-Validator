@@ -89,7 +89,7 @@ public class AbstractValidatorVisitor extends VoidVisitorAdapter {
             }
             sb.append("/");
             sb.append(path);
-            parentPath = path;
+            parentPath = sb.toString();
         }
 
         // Make sure to put action once we find resourcec

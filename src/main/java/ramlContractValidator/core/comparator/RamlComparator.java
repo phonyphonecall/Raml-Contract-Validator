@@ -50,7 +50,6 @@ public class RamlComparator {
 
     private void compareResources(Map<String, Resource> expectedRamlResources, Map<String, Resource> observedRamlResources) {
         if (compareResources) {
-            logger.info("Beginning Resource Comparison");
             if (expectedRamlResources == null) {
                 logger.debug("No resources found in expected RAML");
                 discrepancies.add(new RamlDiscrepancy("No resources found in expected RAML", logger));

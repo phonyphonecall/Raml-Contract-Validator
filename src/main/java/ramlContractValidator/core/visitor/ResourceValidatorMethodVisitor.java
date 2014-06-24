@@ -9,6 +9,7 @@ import org.raml.model.Raml;
 
 /**
  * Created by shendrickson1 on 6/23/14.
+ *
  */
 public class ResourceValidatorMethodVisitor extends AbstractValidatorVisitor {
 

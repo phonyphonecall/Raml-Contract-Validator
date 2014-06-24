@@ -27,7 +27,7 @@ public class ResourceComparator {
         List<RamlDiscrepancy> discrepancies = new LinkedList<RamlDiscrepancy>();
 
         if (observed == null) {
-            discrepancies.add(new RamlDiscrepancy(expected, null, "Missing matching observed resource", logger));
+            discrepancies.add(new RamlDiscrepancy(expected, null, "Missing resource", logger));
             return discrepancies;
         }
         if (expected == null) {
@@ -37,8 +37,11 @@ public class ResourceComparator {
 
         if (!expected.getRelativeUri().equals(observed.getRelativeUri()))
             discrepancies.add(new RamlDiscrepancy(expected, observed, "Relative URI's do not match", logger));
-        if (!expected.getParentUri().equals(observed.getParentUri()))
+        if (!expected.getParentUri().equals(observed.getParentUri())) {
+            logger.debug("Expected Parent: " + expected.getParentUri());
+            logger.debug("Observed Parent: " + observed.getParentUri());
             discrepancies.add(new RamlDiscrepancy(expected, observed, "Parent URI's do not match", logger));
+        }
 
          discrepancies.addAll(compareActions(expected.getActions(), observed.getActions()));
 

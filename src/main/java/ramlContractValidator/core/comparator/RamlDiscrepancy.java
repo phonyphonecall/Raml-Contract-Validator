@@ -14,17 +14,14 @@ import java.util.Map;
  */
 public class RamlDiscrepancy {
 
-    private Log logger;
     private String message;
 
     public RamlDiscrepancy( String message, Log logger ) {
-        this.logger = logger;
         this.message = message;
         logger.debug("Discrepancy Added: " + this.message);
     }
 
     public RamlDiscrepancy(Resource expected, Resource observed, String message, Log logger) {
-        this.logger = logger;
         String expectedPrint = (expected != null) ? expected.getUri() : "";
         String observedPrint = (observed != null) ? observed.getUri() : "";
 
@@ -33,7 +30,6 @@ public class RamlDiscrepancy {
     }
 
     public RamlDiscrepancy(Map<ActionType, Action> expected, Map<ActionType, Action> observed, String message, Log logger) {
-        this.logger = logger;
         String expectedPrint = (expected != null) ? expected.toString() : "";
         String observedPrint = (observed != null) ? observed.toString() : "";
 
