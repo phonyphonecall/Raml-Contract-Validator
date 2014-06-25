@@ -99,6 +99,14 @@ public class AbstractValidatorVisitor extends VoidVisitorAdapter {
         // Make sure to put action once we find resources
         Resource resource = allResources.get(sb.toString());
         action.setResource(resource);
+
+        for(Action existingAction : resource.getActions().values()) {
+            if(existingAction.getType().equals(actionType)) {
+                logger.debug("Multiple " + actionType.name() + "\'s detected at path: " + resource.getUri());
+                throw new RuntimeException("Multiple " + actionType.name() + "\'s detected at path: " + resource.getUri());
+            }
+        }
+
         resource.getActions().put(actionType, action);
     }
 
@@ -129,6 +137,14 @@ public class AbstractValidatorVisitor extends VoidVisitorAdapter {
         action.setType(actionType);
         action.setResource(baseResource);
         action.setQueryParameters(queryParams);
+
+        for(Action existingAction : baseResource.getActions().values()) {
+            if(existingAction.getType().equals(actionType)) {
+                logger.debug("Multiple " + actionType.name() + "\'s detected at path: " + baseResource.getUri());
+                throw new RuntimeException("Multiple " + actionType.name() + "\'s detected at path: " + baseResource.getUri());
+            }
+        }
+
         baseResource.getActions().put(actionType, action);
     }
 }

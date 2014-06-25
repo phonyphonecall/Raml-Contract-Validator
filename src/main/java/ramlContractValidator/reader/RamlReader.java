@@ -14,6 +14,9 @@ import java.util.List;
 
 /**
  * Created by shendrickson1 on 6/25/14.
+ *
+ * @author Scott Hendrickson
+ *
  */
 public class RamlReader {
 
