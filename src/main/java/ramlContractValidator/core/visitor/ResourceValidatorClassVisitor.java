@@ -9,6 +9,8 @@ import org.raml.model.Raml;
 /**
  * Created by shendrickson1 on 6/23/14.
  *
+ * @author Scott Hendrickson
+ *
  */
 public class ResourceValidatorClassVisitor extends AbstractValidatorVisitor {
 
@@ -17,7 +19,7 @@ public class ResourceValidatorClassVisitor extends AbstractValidatorVisitor {
         super(resourceRaml, logger);
     }
 
-    // FIXME only supports Resources with class level path
+    // TODO only supports Resources with class level path
     @Override
     public void visit(ClassOrInterfaceDeclaration n, Object arg) {
         if (n.getAnnotations() != null) {

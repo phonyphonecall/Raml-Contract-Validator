@@ -13,6 +13,8 @@ import java.util.Map.Entry;
 /**
  * Created by shendrickson1 on 6/23/14.
  *
+ * @author Scott Hendrickson
+ *
  */
 public class RamlComparator {
     private Log logger;

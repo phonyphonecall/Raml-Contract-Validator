@@ -17,6 +17,8 @@ import java.util.Map.Entry;
 /**
  * Created by shendrickson1 on 6/23/14.
  *
+ * @author Scott Hendrickson
+ *
  */
 public class AbstractValidatorVisitor extends VoidVisitorAdapter {
 
@@ -79,7 +81,7 @@ public class AbstractValidatorVisitor extends VoidVisitorAdapter {
             String fullPath = sb.toString() + "/" + path;
             if (!allResources.containsKey(fullPath)) {
                 logger.debug("Working on full path: " + fullPath);
-                logger.debug("RCV: Adding resource \'/" + path + "\' to parent: \'" + parentPath + "\'");
+                logger.debug("Adding resource \'/" + path + "\' to parent: \'" + parentPath + "\'");
                 Resource resource = new Resource();
                 resource.setParentUri(parentPath);
                 resource.setRelativeUri("/" + path);
@@ -94,7 +96,7 @@ public class AbstractValidatorVisitor extends VoidVisitorAdapter {
             parentPath = sb.toString();
         }
 
-        // Make sure to put action once we find resourcec
+        // Make sure to put action once we find resources
         Resource resource = allResources.get(sb.toString());
         action.setResource(resource);
         resource.getActions().put(actionType, action);

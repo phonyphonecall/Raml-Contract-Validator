@@ -6,18 +6,17 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.raml.model.Raml;
-import org.raml.parser.rule.ValidationResult;
-import org.raml.parser.visitor.RamlDocumentBuilder;
-import org.raml.parser.visitor.RamlValidationService;
 import ramlContractValidator.core.comparator.RamlComparator;
 import ramlContractValidator.core.visitor.VisitorHandler;
+import ramlContractValidator.reader.RamlReader;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.List;
 
+/**
+ *
+ * @author Scott Hendrickson
+ *
+ */
 @Mojo( name = "validateRamlContract" )
 public class ValidateMojo extends AbstractMojo {
 
@@ -32,13 +31,14 @@ public class ValidateMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-        checkLocation(ramlLocation, " provided RAML");
+        checkLocation(ramlLocation, "RAML");
         checkLocation(resourceClassPath, "resource class");
+
+        RamlReader ramlReader = new RamlReader(getLog());
 
         try {
             getLog().info("Beginning RAML Contract Validation");
-            validateRaml(ramlLocation);
-            Raml raml = buildRaml(ramlLocation);
+            Raml raml = ramlReader.getRaml(ramlLocation);
             File resourceFile = new File(resourceClassPath);
 
             initializeRamlComparator();
@@ -54,44 +54,6 @@ public class ValidateMojo extends AbstractMojo {
     private void initializeRamlComparator() {
         ramlComparator = new RamlComparator(getLog());
         ramlComparator.setCompareResources(true);
-    }
-
-
-    private Raml buildRaml(String ramlLocation) throws MojoFailureException {
-        InputStream stream;
-        try {
-            stream = new FileInputStream(ramlLocation);
-        } catch (FileNotFoundException e) {
-            getLog().error(String.format("Cannot find RAML contract at: %s", ramlLocation));
-            throw new MojoFailureException("Cannot read find contract file");
-        }
-
-        return new RamlDocumentBuilder().build(stream, ramlLocation);
-    }
-
-
-
-    private void validateRaml(String location) throws MojoFailureException {
-        InputStream stream;
-        try {
-            stream = new FileInputStream(location);
-        } catch (FileNotFoundException e) {
-            getLog().error(String.format("Cannot find RAML contract at: %s", location));
-            throw new MojoFailureException("Cannot read find contract file");
-        }
-
-        List<ValidationResult> results = RamlValidationService.createDefault().validate(stream, location);
-        if(results != null) {
-            if(!results.isEmpty()) {
-                getLog().error(String.format("Invalid RAML contract at: %s", location));
-                getLog().error(String.format("Validation Results: "));
-                for (ValidationResult result : results) {
-                    getLog().error(result.toString());
-                }
-
-                throw new MojoFailureException("Invalid RAML Contract at: " + location);
-            }
-        }
     }
 
 

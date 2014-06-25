@@ -17,6 +17,8 @@ import java.util.Map;
 /**
  * Created by shendrickson1 on 6/23/14.
  *
+ * @author Scott Hendrickson
+ *
  */
 public class ResourceValidatorMethodVisitor extends AbstractValidatorVisitor {
 
@@ -27,40 +29,19 @@ public class ResourceValidatorMethodVisitor extends AbstractValidatorVisitor {
 
     @Override
     public void visit(MethodDeclaration n, Object arg) {
-        AnnotationExpr path = null;
+        String path = null;
         ActionType action = null;
         if (n.getAnnotations() != null) {
             for (AnnotationExpr annotation : n.getAnnotations()) {
                 if(annotation.getName().getName().equals("ExcludedFromRaml")) {
                     return;
+                } else if(annotation.getName().getName().equals("Path")) {
+                    path = getValue(annotation);
                 }
-                if(annotation.getName().getName().equals("Path")) {
-                    path = annotation;
-                }
-                if(annotation.getName().getName().equals("GET")) {
-                    action = ActionType.GET;
-                }
-                if(annotation.getName().getName().equals("PUT")) {
-                    action = ActionType.PUT;
-                }
-                if(annotation.getName().getName().equals("POST")) {
-                    action = ActionType.POST;
-                }
-                if(annotation.getName().getName().equals("DELETE")) {
-                    action = ActionType.DELETE;
-                }
-                if(annotation.getName().getName().equals("PATCH")) {
-                    action = ActionType.PATCH;
-                }
-                if(annotation.getName().getName().equals("OPTIONS")) {
-                    action = ActionType.OPTIONS;
-                }
-                if(annotation.getName().getName().equals("HEAD")) {
-                    action = ActionType.HEAD;
-                }
-                if(annotation.getName().getName().equals("TRACE")) {
-                    action = ActionType.TRACE;
-                }
+
+                ActionType temp = getActionType(annotation);
+                if (temp != null)
+                    action = temp;
             }
 
             Map<String, QueryParameter> queryParams = new LinkedHashMap<String, QueryParameter>();
@@ -71,18 +52,18 @@ public class ResourceValidatorMethodVisitor extends AbstractValidatorVisitor {
              * Four cases:
              *  0: Method is not a path method
              *  1: Method has path but no action: Disallowed
-             *  2: Method has path and action: add to RAML
-             *  3: Method has action but no path: base path action assumed
+             *  2: Method has action but no path: base path action assumed
+             *  3: Method has path and action: add to RAML
              */
             if (path == null && action == null) {
                 return;
             } else if (path != null && action == null) {
-                throw new RuntimeException("Path missing action type at: " + getValue(path));
+                throw new RuntimeException("Path missing action type at: " + path);
             } else if (path == null && action != null) {
                 addBaseResourcePathAction(action, queryParams);
             } else {
-                logger.debug("Adding path: " + getValue(path));
-                addPath(getValue(path), action, queryParams);
+                logger.debug("Adding path: " +path );
+                addPath(path, action, queryParams);
             }
         }
     }
@@ -106,5 +87,33 @@ public class ResourceValidatorMethodVisitor extends AbstractValidatorVisitor {
         }
 
         return queryParams;
+    }
+
+    private ActionType getActionType(AnnotationExpr annotation) {
+        if(annotation.getName().getName().equals("GET")) {
+            return ActionType.GET;
+        }
+        if(annotation.getName().getName().equals("PUT")) {
+            return ActionType.PUT;
+        }
+        if(annotation.getName().getName().equals("POST")) {
+            return ActionType.POST;
+        }
+        if(annotation.getName().getName().equals("DELETE")) {
+            return ActionType.DELETE;
+        }
+        if(annotation.getName().getName().equals("PATCH")) {
+            return ActionType.PATCH;
+        }
+        if(annotation.getName().getName().equals("OPTIONS")) {
+            return ActionType.OPTIONS;
+        }
+        if(annotation.getName().getName().equals("HEAD")) {
+            return ActionType.HEAD;
+        }
+        if(annotation.getName().getName().equals("TRACE")) {
+            return ActionType.TRACE;
+        }
+        return null;
     }
 }

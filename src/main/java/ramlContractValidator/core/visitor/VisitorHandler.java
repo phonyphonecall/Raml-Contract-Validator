@@ -15,8 +15,10 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 /**
- *
  * Created by shendrickson1 on 6/23/14.
+ *
+ * @author Scott Hendrickson
+ *
  */
 public class VisitorHandler {
 
@@ -36,6 +38,7 @@ public class VisitorHandler {
         try {
             in = new FileInputStream(resourceFile);
             cu = JavaParser.parse(in);
+            // These will visit all class and method definitions respectively, calling the visit methods in visitor
             new ResourceValidatorClassVisitor(observedRaml, logger).visit(cu, null);
             new ResourceValidatorMethodVisitor(observedRaml, logger).visit(cu, null);
         } catch (ParseException e) {

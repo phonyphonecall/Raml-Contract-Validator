@@ -16,6 +16,8 @@ import java.util.Map.Entry;
 /**
  * Created by shendrickson1 on 6/24/14.
  *
+ * @author Scott Hendrickson
+ *
  */
 public class ResourceComparator {
 
@@ -46,10 +48,6 @@ public class ResourceComparator {
         }
 
          discrepancies.addAll(compareActions(expected.getActions(), observed.getActions()));
-
-        // expected.getBaseUriParameters();
-        // expected.getUriParameters();
-        // expected.getUri();
 
         return discrepancies;
     }
