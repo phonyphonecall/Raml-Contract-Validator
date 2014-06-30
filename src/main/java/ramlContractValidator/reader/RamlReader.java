@@ -20,15 +20,32 @@ import java.util.List;
  */
 public class RamlReader {
 
+    private boolean generateTemplateRaml;
     private Log logger;
 
-    public RamlReader(Log logger) {
+    public RamlReader(boolean generateTemplateRaml, Log logger) throws MojoFailureException {
         this.logger = logger;
+        this.generateTemplateRaml = generateTemplateRaml;
     }
 
     public Raml getRaml(String ramlLocation) throws MojoFailureException {
-        validateRaml(ramlLocation);
-        return buildRaml(ramlLocation);
+        Raml raml = null;
+        try {
+            validateRaml(ramlLocation);
+            raml = buildRaml(ramlLocation);
+        } catch (MojoFailureException e) {
+            if (!generateTemplateRaml) {
+                logger.error("Could not read raml at: " + ramlLocation);
+                logger.error("RAML template generation is disabled");
+                logger.error("See readme for information on auto template generation.");
+                logger.error("Failing build");
+                throw new MojoFailureException(e.getMessage());
+            }
+            // Else silence the error, as we will dump a template later...
+            // Logs still record error :-)
+        }
+
+        return raml;
     }
 
     private Raml buildRaml(String ramlLocation) throws MojoFailureException {
@@ -36,8 +53,8 @@ public class RamlReader {
         try {
             stream = new FileInputStream(ramlLocation);
         } catch (FileNotFoundException e) {
-            logger.error(String.format("Cannot find RAML contract at: %s", ramlLocation));
-            throw new MojoFailureException("Cannot read find contract file");
+            logger.warn(String.format("Cannot find RAML contract at: %s", ramlLocation));
+            throw new MojoFailureException("Cannot find contract file");
         }
 
         return new RamlDocumentBuilder().build(stream, ramlLocation);
@@ -48,7 +65,6 @@ public class RamlReader {
         try {
             stream = new FileInputStream(ramlLocation);
         } catch (FileNotFoundException e) {
-            logger.error(String.format("Cannot find RAML contract at: %s", ramlLocation));
             throw new MojoFailureException("Cannot read find contract file");
         }
 

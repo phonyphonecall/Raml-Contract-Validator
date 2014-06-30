@@ -26,27 +26,49 @@ public class ValidateMojo extends AbstractMojo {
     @Parameter( property = "ramlContractValidator.resourceClassPath", required = true )
     private String resourceClassPath;
 
+    @Parameter( property = "generateTemplateRaml", required = false )
+    private String generateTemplateRaml;
+
+    private String templateRamlLocation;
+
+
     private RamlComparator ramlComparator;
 
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-        checkLocation(ramlLocation, "RAML");
-        checkLocation(resourceClassPath, "resource class");
-
-        RamlReader ramlReader = new RamlReader(getLog());
-
         try {
+            checkLocation(resourceClassPath, "resource class");
+
+            initializeTemplateLocation(ramlLocation);
+
+            RamlReader ramlReader = new RamlReader(getBoolean(generateTemplateRaml), getLog());
+
             getLog().info("Beginning RAML Contract Validation");
             Raml raml = ramlReader.getRaml(ramlLocation);
+
+            if(raml == null) {
+                getLog().warn("No RAML Contract found at: " + ramlLocation);
+            }
+
             File resourceFile = new File(resourceClassPath);
 
             initializeRamlComparator();
-            VisitorHandler visitorHandler = new VisitorHandler(ramlComparator, getLog());
+            VisitorHandler visitorHandler = new VisitorHandler(ramlComparator, getBoolean(generateTemplateRaml), templateRamlLocation, getLog());
             visitorHandler.validateResource(resourceFile, raml);
         } catch (Exception e) {
             getLog().error(e.getMessage());
             throw new MojoFailureException(e.getMessage());
+        }
+    }
+
+    private boolean getBoolean(String generateTemplateRaml) throws MojoFailureException {
+        if (generateTemplateRaml.equals("false")) {
+            return false;
+        } else if (generateTemplateRaml.equals("true")) {
+            return true;
+        } else {
+            throw new MojoFailureException("Invalid generateTemplateRaml parameter specified in pom: " + generateTemplateRaml + " | Requires either \'true\' or \'false\'" );
         }
     }
 
@@ -63,5 +85,11 @@ public class ValidateMojo extends AbstractMojo {
             getLog().info(String.format("Cannot read " + name + " at: %s", path));
             throw new MojoFailureException("Unable to read " + name);
         }
+    }
+
+
+    private void initializeTemplateLocation(String ramlLocation) {
+        int dir = ramlLocation.lastIndexOf("/");
+        templateRamlLocation = ramlLocation.substring(0, dir);
     }
 }
