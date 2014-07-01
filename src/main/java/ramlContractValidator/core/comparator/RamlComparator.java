@@ -1,14 +1,16 @@
 package ramlContractValidator.core.comparator;
 
 import org.apache.maven.plugin.logging.Log;
+import org.raml.model.Action;
+import org.raml.model.ActionType;
 import org.raml.model.Raml;
 import org.raml.model.Resource;
+import org.raml.model.parameter.QueryParameter;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * Created by shendrickson1 on 6/23/14.
@@ -19,15 +21,11 @@ import java.util.Map.Entry;
 public class RamlComparator {
     private Log logger;
 
-    // --- Configuration Variables ---//
-    private boolean compareResources;
-
+    List<RamlDiscrepancy> discrepancies = new LinkedList<RamlDiscrepancy>();
 
     public RamlComparator(Log logger) {
         this.logger = logger;
     }
-
-    List<RamlDiscrepancy> discrepancies = new LinkedList<RamlDiscrepancy>();
 
 
     public List<RamlDiscrepancy> compare(Raml expectedRaml, Raml observedRaml) {
@@ -42,7 +40,8 @@ public class RamlComparator {
             throw new NullPointerException("Compare on null observed resource disallowed");
         }
 
-        compareResources(expectedRaml.getResources(), observedRaml.getResources());
+        compareResources(getAllResources(expectedRaml), getAllResources(observedRaml));
+
 
         if (discrepancies.isEmpty())
             return null;
@@ -50,55 +49,68 @@ public class RamlComparator {
             return discrepancies;
     }
 
-    private void compareResources(Map<String, Resource> expectedRamlResources, Map<String, Resource> observedRamlResources) {
-        if (compareResources) {
-            if (expectedRamlResources == null) {
-                logger.debug("No resources found in expected RAML");
-                discrepancies.add(new RamlDiscrepancy("No resources found in expected RAML", logger));
-                return;
-            }
-            if (observedRamlResources == null) {
-                logger.debug("No resources found in expected RAML");
-                discrepancies.add(new RamlDiscrepancy("No resources found in observed RAML", logger));
-                return;
-            }
-            recurseResources(expectedRamlResources, observedRamlResources);
-        }
-    }
+    private void compareResources(Map<String, Resource> expectedResources, Map<String, Resource> observedResources) {
+        // First we compare resources
+        MapComparator<String, Resource> resourceMapComparator = new MapComparator<String, Resource>(logger);
 
-    private void recurseResources(Map<String, Resource> expectedRamlResources, Map<String, Resource> observedRamlResources) {
-        if (observedRamlResources == null) {
-            logger.debug("No resource level found in expected RAML");
-            discrepancies.add(new RamlDiscrepancy("No resource level found in observed RAML", logger));
-            return;
-        }
+        discrepancies.addAll(resourceMapComparator.compare(expectedResources, observedResources, "resource"));
 
-        Map<String, Resource> observedResourceBuffer = new LinkedHashMap<String, Resource>();
-        observedResourceBuffer.putAll(observedRamlResources);
+        Map<String, Resource> validExpectedResources = resourceMapComparator.getValidExpected();
+        Map<String, Resource> validObservedResources = resourceMapComparator.getValidObserved();
 
-        for(Entry<String, Resource> entry : expectedRamlResources.entrySet()) {
-            Resource expected = entry.getValue();
-            Resource observed = observedRamlResources.get(entry.getKey());
-            if(observed != null)
-                observedResourceBuffer.remove(entry.getKey());
+        for(Map.Entry<String, Resource> entry : validExpectedResources.entrySet()) {
+            Resource expectedResource = entry.getValue();
+            Resource observedResource = validObservedResources.get(entry.getKey());
 
-            discrepancies.addAll(new ResourceComparator(logger).compare(expected, observed));
+            logger.debug("comparing expected resource: " + expectedResource + " to " + observedResource);
 
-            Map<String, Resource> expectedChildResources = expected.getResources();
-            Map<String, Resource> observedChildResources = (observed != null) ? observed.getResources() : null;
-            if (expectedChildResources != null) {
-                recurseResources(expectedChildResources, observedChildResources);
-            }
-        }
-
-        for(Entry<String, Resource> entry : observedResourceBuffer.entrySet()) {
-            discrepancies.addAll(new ResourceComparator(logger).compare(null, entry.getValue()));
+            compareActions(expectedResource.getActions(), observedResource.getActions());
         }
     }
 
 
-    public void setCompareResources(boolean compareResources) {
-        this.compareResources = compareResources;
+    private void compareActions(Map<ActionType, Action> expectedActions, Map<ActionType, Action> observedActions) {
+        MapComparator<ActionType, Action> actionMapComparator = new MapComparator<ActionType, Action>(logger);
+
+        discrepancies.addAll(actionMapComparator.compare(expectedActions, observedActions, "action"));
+
+        Map<ActionType, Action> validExpectedActions = actionMapComparator.getValidExpected();
+        Map<ActionType, Action> validObservedActions = actionMapComparator.getValidObserved();
+
+        for(Map.Entry<ActionType, Action> entry : validExpectedActions.entrySet()) {
+            Action expectedAction = entry.getValue();
+            Action observedAction = validObservedActions.get(entry.getKey());
+
+            compareQueryParams(expectedAction, observedAction);
+        }
     }
 
+    private void compareQueryParams(Action expectedAction, Action observedAction) {
+        MapComparator<String, QueryParameter> actionMapComparator = new MapComparator<String, QueryParameter>(logger);
+        discrepancies.addAll(actionMapComparator.compare(expectedAction.getQueryParameters(),
+                                                         observedAction.getQueryParameters(),
+                                                         "query parameter"));
+    }
+
+
+    private Map<String, Resource> getAllResources(Raml raml) {
+        Map<String, Resource> resources = getAllResources(raml.getResources());
+        return resources;
+    }
+
+    private Map<String, Resource> getAllResources(Map<String, Resource> resources) {
+        Map<String, Resource> found = new LinkedHashMap<String, Resource>();
+        if(resources != null)
+            found.putAll(resources);
+
+        Map<String, Resource> buffer = new LinkedHashMap<String, Resource>();
+        for(Resource resource : found.values()) {
+            if(resource.getResources() != null && !resource.getResources().isEmpty())
+                buffer.putAll(getAllResources(resource.getResources()));
+        }
+
+        found.putAll(buffer);
+
+        return found;
+    }
 }

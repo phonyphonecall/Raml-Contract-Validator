@@ -103,6 +103,8 @@ public class AbstractValidatorVisitor extends VoidVisitorAdapter {
         for(Action existingAction : resource.getActions().values()) {
             if(existingAction.getType().equals(actionType)) {
                 logger.debug("Multiple " + actionType.name() + "\'s detected at path: " + resource.getUri());
+                logger.error("This is illegal use of annotations");
+                logger.error("Must be fixed before building");
                 throw new RuntimeException("Multiple " + actionType.name() + "\'s detected at path: " + resource.getUri());
             }
         }
@@ -141,6 +143,8 @@ public class AbstractValidatorVisitor extends VoidVisitorAdapter {
         for(Action existingAction : baseResource.getActions().values()) {
             if(existingAction.getType().equals(actionType)) {
                 logger.debug("Multiple " + actionType.name() + "\'s detected at path: " + baseResource.getUri());
+                logger.error("This is illegal use of annotations");
+                logger.error("Must be fixed before building");
                 throw new RuntimeException("Multiple " + actionType.name() + "\'s detected at path: " + baseResource.getUri());
             }
         }

@@ -3,7 +3,7 @@ package ramlContractValidator.core.comparator;
 import org.apache.maven.plugin.logging.Log;
 import org.raml.model.Action;
 import org.raml.model.ActionType;
-import org.raml.model.Resource;
+import org.raml.model.parameter.QueryParameter;
 
 import java.util.Map;
 
@@ -13,7 +13,7 @@ import java.util.Map;
  * @author Scott Hendrickson
  *
  */
-public class RamlDiscrepancy {
+public class RamlDiscrepancy<T> {
 
     private String message;
 
@@ -22,11 +22,16 @@ public class RamlDiscrepancy {
         logThis(logger);
     }
 
-    public RamlDiscrepancy(Resource expected, Resource observed, String message, Log logger) {
-        String expectedPrint = (expected != null) ? expected.getUri() : "";
-        String observedPrint = (observed != null) ? observed.getUri() : "";
+    public RamlDiscrepancy(T expected, T observed, String name, String message, Log logger) {
+        String expectedPrint;
+        String observedPrint;
 
-        this.message =  message + " | expected resource: " + expectedPrint + " | observed resource: " + observedPrint;
+        expectedPrint = (expected != null) ? (isQueryParam(expected) ? ((QueryParameter) expected).getDisplayName() : expected.toString()) : "";
+        observedPrint = (observed != null) ? (isQueryParam(observed) ? ((QueryParameter) observed).getDisplayName() : observed.toString()) : "";
+
+        String finalMessage = String.format(message, name);
+
+        this.message =  finalMessage + " | expected " + name + ": " + expectedPrint + " | observed " + name + ": " + observedPrint;
         logThis(logger);
     }
 
@@ -54,4 +59,9 @@ public class RamlDiscrepancy {
     public String toString() {
         return message;
     }
+
+
+    private boolean isQueryParam(T param) {
+       return param instanceof QueryParameter;
+     }
 }

@@ -75,7 +75,6 @@ public class ValidateMojo extends AbstractMojo {
 
     private void initializeRamlComparator() {
         ramlComparator = new RamlComparator(getLog());
-        ramlComparator.setCompareResources(true);
     }
 
 
