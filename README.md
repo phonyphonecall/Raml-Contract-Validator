@@ -5,9 +5,9 @@ The Raml-Contract-Validator is meant to help developers use raml to validate tha
 
 Currently Validates:
 --------------------
--Path's (petstore.com/pets/{petId} is compared with @Path("/pets/{petId}"))
--Actions (GET: compared with @GET)
--QueryParameters (queryParameters: owner: is compared with @QueryParam("owner"))
+- Path's (petstore.com/pets/{petId} is compared with @Path("/pets/{petId}"))
+- Actions (GET: compared with @GET)
+- QueryParameters (queryParameters: owner: is compared with @QueryParam("owner"))
 
 Additional Features:
 --------------------
@@ -55,8 +55,8 @@ Add the following plugin configuration to your POM:
 
 Features We Are Interested In:
 ------------------------------
--Auto-generation of swagger docs, for those still stuck on swagger
--Incorperation of auto-generating raml html documentation
--In resource class linking of html documentation
+- Auto-generation of swagger docs, for those still stuck on swagger
+- Incorperation of auto-generating raml html documentation
+- In resource class linking of html documentation
 
 
