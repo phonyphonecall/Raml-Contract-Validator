@@ -37,21 +37,23 @@ public class VisitorHandler {
         this.logger = logger;
     }
 
-    public void validateResource( final File resourceFile, Raml expectedRaml ) {
+    public void validateResource( File[] resourceFiles, Raml expectedRaml ) {
         CompilationUnit cu;
         FileInputStream in;
-        try {
-            in = new FileInputStream(resourceFile);
-            cu = JavaParser.parse(in);
-            // These will visit all class and method definitions respectively, calling the visit methods in visitor
-            new ResourceValidatorClassVisitor(observedRaml, logger).visit(cu, null);
-            new ResourceValidatorMethodVisitor(observedRaml, logger).visit(cu, null);
-        } catch (ParseException e) {
-            logger.error("Parse Exception in reflection util");
-            throw new RuntimeException("Parse Exception in reflection util");
-        } catch (FileNotFoundException e) {
-            logger.error("File Not Found Exception in reflection util");
-            throw new RuntimeException("File Not Found Exception in reflection util");
+        for(File resourceFile : resourceFiles) {
+            try {
+                in = new FileInputStream(resourceFile);
+                cu = JavaParser.parse(in);
+                // These will visit all class and method definitions respectively, calling the visit methods in visitor
+                new ResourceValidatorClassVisitor(observedRaml, logger).visit(cu, null);
+                new ResourceValidatorMethodVisitor(observedRaml, logger).visit(cu, null);
+            } catch (ParseException e) {
+                logger.error("Parse Exception in reflection util");
+                throw new RuntimeException("Parse Exception in reflection util");
+            } catch (FileNotFoundException e) {
+                logger.error("File Not Found Exception in reflection util");
+                throw new RuntimeException("File Not Found Exception in reflection util");
+            }
         }
 
         logger.debug(new RamlEmitter().dump(observedRaml));

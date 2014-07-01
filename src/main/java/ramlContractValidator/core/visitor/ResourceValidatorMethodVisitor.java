@@ -5,7 +5,6 @@ import japa.parser.ast.body.Parameter;
 import japa.parser.ast.expr.AnnotationExpr;
 import org.apache.maven.plugin.logging.Log;
 import org.raml.model.ActionType;
-import org.raml.model.ParamType;
 import org.raml.model.Raml;
 import org.raml.model.parameter.QueryParameter;
 
@@ -79,7 +78,7 @@ public class ResourceValidatorMethodVisitor extends AbstractValidatorVisitor {
                         logger.debug("Adding QueryParameter: " + name);
                         QueryParameter queryParam = new QueryParameter();
                         queryParam.setDisplayName(name);
-                        queryParam.setType(ParamType.valueOf(param.getType().toString().toUpperCase()));
+                        //queryParam.setType(ParamType.valueOf(param.getType().toString().toUpperCase()));
                         queryParams.put(name, queryParam);
                     }
                 }

@@ -10,7 +10,6 @@ import org.raml.model.Resource;
 import org.raml.model.parameter.QueryParameter;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -26,7 +25,7 @@ public class AbstractValidatorVisitor extends VoidVisitorAdapter {
 
     private Raml resourceRaml;
 
-    private Resource baseResource;
+    private String currentBaseResourcePath;
     // For convenience we will buffer up all resources in project here
     private Map<String, Resource> allResources = new HashMap<String, Resource>();
 
@@ -34,18 +33,15 @@ public class AbstractValidatorVisitor extends VoidVisitorAdapter {
         this.resourceRaml = resourceRaml;
         this.logger = logger;
 
-        // Fill baseResource if possible
+        // Fill currentBaseResourcePath if possible
         if (resourceRaml.getResources() != null) {
             if (!resourceRaml.getResources().isEmpty()) {
+                currentBaseResourcePath = resourceRaml.getMediaType();
                 for (Entry<String, Resource> entry : resourceRaml.getResources().entrySet()) {
-                    baseResource = entry.getValue();
                     allResources.put(entry.getKey(), entry.getValue());
+                    fillAllResources(entry.getValue());
                 }
             }
-        }
-
-        if(baseResource != null) {
-            fillAllResources(baseResource);
         }
     }
 
@@ -62,6 +58,8 @@ public class AbstractValidatorVisitor extends VoidVisitorAdapter {
     }
 
     protected void addPath(String value, ActionType actionType, Map<String, QueryParameter> queryParams) {
+        Resource baseResource = resourceRaml.getResource(currentBaseResourcePath);
+
         Action action = new Action();
         action.setType(actionType);
         action.setQueryParameters(queryParams);
@@ -124,12 +122,12 @@ public class AbstractValidatorVisitor extends VoidVisitorAdapter {
 
 
     protected void addBaseResourcePath(String path) {
-        baseResource = new Resource();
+        currentBaseResourcePath = path;
+        resourceRaml.setMediaType(path);
+        Resource baseResource = new Resource();
         baseResource.setRelativeUri(path);
         baseResource.setParentUri("");
-        Map<String, Resource> baseResources = new LinkedHashMap<String, Resource>();
-        baseResources.put(path, baseResource);
-        resourceRaml.setResources(baseResources);
+        resourceRaml.getResources().put(path, baseResource);
         allResources.put(path, baseResource);
     }
 
@@ -137,6 +135,7 @@ public class AbstractValidatorVisitor extends VoidVisitorAdapter {
         logger.debug("Adding base path action: " + actionType.name());
         Action action = new Action();
         action.setType(actionType);
+        Resource baseResource = resourceRaml.getResource(currentBaseResourcePath);
         action.setResource(baseResource);
         action.setQueryParameters(queryParams);
 

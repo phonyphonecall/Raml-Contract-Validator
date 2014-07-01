@@ -23,8 +23,8 @@ public class ValidateMojo extends AbstractMojo {
     @Parameter( property = "ramlContractValidator.ramlLocation", required = true )
     private String ramlLocation;
 
-    @Parameter( property = "ramlContractValidator.resourceClassPath", required = true )
-    private String resourceClassPath;
+    @Parameter( property = "ramlContractValidator.resourceClassPaths", required = true )
+    private String[] resourceClassPaths;
 
     @Parameter( property = "generateTemplateRaml", required = false )
     private String generateTemplateRaml = "false";
@@ -42,7 +42,9 @@ public class ValidateMojo extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         try {
-            checkLocation(resourceClassPath, "resource class");
+            for(String resource : resourceClassPaths) {
+                checkLocation(resource, "resource class");
+            }
 
             initializeTemplateLocation(ramlLocation);
 
@@ -55,11 +57,14 @@ public class ValidateMojo extends AbstractMojo {
                 getLog().warn("No RAML Contract found at: " + ramlLocation);
             }
 
-            File resourceFile = new File(resourceClassPath);
+            File[] resourceFiles = new File[resourceClassPaths.length];
+            for(int i = 0; i < resourceClassPaths.length; i++) {
+                resourceFiles[i] = new File(resourceClassPaths[i]);
+            }
 
             initializeRamlComparator();
             VisitorHandler visitorHandler = new VisitorHandler(ramlComparator, getBoolean(generateTemplateRaml), templateRamlLocation, getLog());
-            visitorHandler.validateResource(resourceFile, raml);
+            visitorHandler.validateResource(resourceFiles, raml);
 
             if(getBoolean(generateRamlHtmlDocs)) {
                 // TODO
