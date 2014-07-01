@@ -6,7 +6,7 @@
 
     <groupId>com.intuit</groupId>
     <artifactId>raml-contract-validator</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.8</version>
     <packaging>maven-plugin</packaging>
 
     <dependencies>
@@ -18,7 +18,7 @@
         <dependency>
             <groupId>org.raml</groupId>
             <artifactId>raml-parser</artifactId>
-            <version>0.8.4</version>
+            <version>0.8.5</version>
         </dependency>
 
         <!-- JAX-RS Dependancies -->

@@ -27,7 +27,11 @@ public class ValidateMojo extends AbstractMojo {
     private String resourceClassPath;
 
     @Parameter( property = "generateTemplateRaml", required = false )
-    private String generateTemplateRaml;
+    private String generateTemplateRaml = "false";
+
+    //@Parameter( property = "generateRamlHtmlDocs", required = false )
+    private String generateRamlHtmlDocs = "true";
+
 
     private String templateRamlLocation;
 
@@ -56,6 +60,10 @@ public class ValidateMojo extends AbstractMojo {
             initializeRamlComparator();
             VisitorHandler visitorHandler = new VisitorHandler(ramlComparator, getBoolean(generateTemplateRaml), templateRamlLocation, getLog());
             visitorHandler.validateResource(resourceFile, raml);
+
+            if(getBoolean(generateRamlHtmlDocs)) {
+                // TODO
+            }
         } catch (Exception e) {
             getLog().error(e.getMessage());
             throw new MojoFailureException(e.getMessage());
