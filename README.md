@@ -1,5 +1,6 @@
 Raml-Contract-Validator
 =======================
+A project by Scott Hendrickson for Intuit's ProTax Services team
 
 The Raml-Contract-Validator is meant to help developers use raml to validate that their jax-rs annotated resource classes describle the API that their raml actually describes. The Raml-Contract-Validator is implemented as a maven plugin that runs at build time. It takes as parameters a RAML file, a resource class, and some optional configuration. It parses the given raml file, and compares it to the jax-rs annotated resource class. It attempts to buffer up all discrepancies found, and prints them back to the user. The plugin will only allow the build to succeed if the raml and the resource match entirely.
 
