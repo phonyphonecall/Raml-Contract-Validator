@@ -21,7 +21,7 @@ Add the following dependancy to your POM:
 <dependency>
   <groupId>com.intuit</groupId>
   <artifactId>raml-contract-validator</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.8</version>
 </dependency>
 ```
 
@@ -32,7 +32,7 @@ Add the following plugin configuration to your POM:
         <plugin>
             <groupId>com.intuit</groupId>
             <artifactId>raml-contract-validator</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>0.8</version>
             <executions>
                 <execution>
                     <id>validation</id>
