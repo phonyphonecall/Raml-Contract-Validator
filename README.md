@@ -56,6 +56,7 @@ Add the following plugin configuration to your POM:
 
 Features We Are Interested In:
 ------------------------------
+- Transition to use the [mulesoft RAML parser](https://github.com/mulesoft/jaxrs-to-raml/tree/master/com.mulesoft.jaxrs.raml.generator), instead of the current custom built one
 - Auto-generation of swagger docs, for those still stuck on swagger
 - Incorperation of auto-generating raml html documentation
 - In resource class linking of html documentation
