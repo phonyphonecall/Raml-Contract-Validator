@@ -16,6 +16,9 @@ If `<generateTemplateRaml>true</generateTemplateRaml>` is included in plugin con
 
 How to use:
 -----------
+Clone this repo locally, and run a maven clean install to get it into your local maven repositories.
+(You may push it to your nexus if desired)
+
 Add the following dependancy to your POM:
 ```        
 <dependency>
