@@ -32,6 +32,7 @@ Add the following plugin configuration to your POM:
 ```
 <build>
     <plugins>
+        ....
         <plugin>
             <groupId>com.intuit</groupId>
             <artifactId>raml-contract-validator</artifactId>
@@ -53,6 +54,7 @@ Add the following plugin configuration to your POM:
                 </execution>
             </executions>
         </plugin>
+        ....
     </plugins>
 </build>
 ```
@@ -63,6 +65,7 @@ Features We Are Interested In:
 - Auto-generation of swagger docs, for those still stuck on swagger
 - Incorperation of auto-generating raml html documentation
 - In resource class linking of html documentation
+- Publishing to the maven default nexus!
 
 
 Feel free to submit pull requests!
