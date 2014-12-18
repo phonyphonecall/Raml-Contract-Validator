@@ -12,7 +12,7 @@ Currently Validates:
 
 Additional Features:
 --------------------
-If `<generateTemplateRaml>true</generateTemplateRaml>` is included in plugin configuration found in the POM.xml, the project will not fail if the raml file is not found. Instead it generates a skeleton raml for the user to fill in. This is meant to ease the RAML onboarding process for jax-rs users.
+If `<generateTemplateRaml>true</generateTemplateRaml>` is included in plugin configuration found in the `pom.xml`, the build will not fail if the raml file is not found. Instead it will generate a skeleton raml for the user to fill in. This is meant to ease the RAML onboarding process for jax-rs users.
 
 How to use:
 -----------
@@ -46,9 +46,9 @@ Add the following plugin configuration to your POM:
                     </goals>
                     <configuration>
                         <ramlLocation>${project.basedir}/POINT_TO_YOUR_RAML</ramlLocation>
-                        <resourceClassPath>${project.basedir}/POINT_TO_YOUR_REASOURCE.java</resourceClassPath>
+                        <resourceClassPath>${project.basedir}/POINT_TO_YOUR_RESOURCE.java</resourceClassPath>
                         <!-- Allows first time users to generate a template RAML from their resource -->
-                        <!-- HIGHLY reccommended that you disable this after you have a working raml -->
+                        <!-- HIGHLY recommended that you disable this after you have a working raml -->
                         <generateTemplateRaml>true</generateTemplateRaml>
                     </configuration>
                 </execution>
@@ -63,8 +63,7 @@ Features We Are Interested In:
 ------------------------------
 - Transition to use the [mulesoft RAML parser](https://github.com/mulesoft/jaxrs-to-raml/tree/master/com.mulesoft.jaxrs.raml.generator), instead of the current custom built one
 - Auto-generation of swagger docs, for those still stuck on swagger
-- Incorperation of auto-generating raml html documentation
-- In resource class linking of html documentation
+- Incorperate auto-generating raml html documentation
 - Publishing to the maven default nexus!
 
 
